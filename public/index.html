@@ -22,13 +22,11 @@
       </div>
       <div id="loggedin">
         <div id="user-profile"></div>
-        <div id="oauth"></div>
-        <div id="currently-playing"></div>
         <div id="play-songs">
-          <div class="card mx-auto" style="width:90%">
+          <div class="card mx-auto">
             <div class="row">
               <div class="col-sm-12">
-                <h2>Playback</h2>
+                <h2>Playback Sync Demo</h2>
               </div>
             </div>
             <div class="row">
@@ -48,6 +46,7 @@
             </div>
           </div>
         </div>
+        <div id="party"></div>
       </div>
     </div>
   </div>
@@ -63,99 +62,8 @@
         <h1 class="title">{{id}}</h1>
       </div>
     </div>
-    <div class="card mx-auto" style="width:90%">
-      <div class="row">
-        <div class="col-sm-12">
-          <h2>Profile Info</h2>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-sm-12">
-          <p><strong>Display name:</strong> {{display_name}}</p>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-sm-12">
-          <p><strong>Id:</strong> {{id}}</p>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-sm-12">
-          <p><strong>Email:</strong> {{email}}</p>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-sm-12">
-          <p><strong>Spotify URI:</strong> {{external_urls.spotify}}</p>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-sm-12">
-          <p><strong>Link:</strong> {{href}}</p>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-sm-12">
-          <p><strong>Country:</strong> {{country}}</p>
-        </div>
-      </div>
-    </div>
   </script>
 
-  <script id="oauth-template" type="text/x-handlebars-template">
-    <div class="card mx-auto" style="width:90%">
-      <div class="row">
-        <div class="col-sm-12">
-          <h2>Authorization Tokens</h2>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-sm-12">
-          <p class="text-overflow"><strong>Access token: </strong>{{access_token}}</p>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-sm-12">
-          <p class="text-overflow"><strong>Refresh token: </strong>{{refresh_token}}</p>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-sm-12 text-center">
-          <button class="btn btn-warning pill-btn" id="obtain-new-token">Obtain new token</button>
-        </div>
-      </div>
-    </div>
-  </script>
-
-  <script id="currently-playing-template" type="text/x-handlebars-template">
-    <div class="card mx-auto" style="width:90%">
-      <div class="row">
-        <div class="col-sm-12">
-          <h2>Currently Playing</h2>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-sm-12">
-          <p><strong>Track: </strong>{{item.name}}</p>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-sm-12">
-          <p><strong>Artist: </strong>{{item.artists.0.name}}</p>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-sm-12">
-          <p><strong>Progress (ms): </strong>{{progress_ms}}</p>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-sm-12 text-center">
-          <button class="btn btn-warning pill-btn" id="current">Get curently playing</button>
-        </div>
-      </div>
-    </div>
-  </script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0-alpha.1/handlebars.min.js"></script>
   <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
   <script>
@@ -179,14 +87,6 @@
         userProfileTemplate = Handlebars.compile(userProfileSource),
         userProfilePlaceholder = document.getElementById('user-profile');
 
-      var oauthSource = document.getElementById('oauth-template').innerHTML,
-        oauthTemplate = Handlebars.compile(oauthSource),
-        oauthPlaceholder = document.getElementById('oauth');
-
-      var currentPlayingSource = document.getElementById('currently-playing-template').innerHTML,
-        currentPlayingTemplate = Handlebars.compile(currentPlayingSource),
-        currentPlayingPlaceholder = document.getElementById('currently-playing');
-
       var params = getHashParams();
 
       var access_token = params.access_token,
@@ -194,23 +94,11 @@
         error = params.error;
 
 
-      var item = null,
-        progress_ms = null
-
       if (error) {
         alert('There was an error during the authentication');
       } else {
         if (access_token) {
           // render oauth info
-          oauthPlaceholder.innerHTML = oauthTemplate({
-            access_token: access_token,
-            refresh_token: refresh_token
-          });
-
-          currentPlayingPlaceholder.innerHTML = currentPlayingTemplate({
-            item: item,
-            progress_ms: progress_ms
-          });
 
           $.ajax({
             url: 'https://api.spotify.com/v1/me',
@@ -236,43 +124,9 @@
 
 
 
-        $(document).on('click', '#obtain-new-token', function() {
-          $.ajax({
-            url: '/refresh_token',
-            data: {
-              'refresh_token': refresh_token
-            }
-          }).done(function(data) {
-            access_token = data.access_token;
-            oauthPlaceholder.innerHTML = oauthTemplate({
-              access_token: access_token,
-              refresh_token: refresh_token
-            });
-          });
-
-
-        });
-
-        $(document).on('click', '#current', function() {
-          $.ajax({
-            url: '/get_currently_playing',
-            dataType: 'json',
-            data: {
-              'access_token': access_token
-            }
-          }).done(function(data) {
-            progress_ms = data.progress_ms;
-            item = data.item;
-            currentPlayingPlaceholder.innerHTML = currentPlayingTemplate({
-              progress_ms: progress_ms,
-              item: item
-            });
-          });
-
-        });
-
         $(document).on('click', '#listener', function() {
           socket.emit('listener', {
+            socket_id: socket.id,
             access_token: access_token,
             refresh_token: refresh_token
           });
@@ -281,6 +135,7 @@
 
         $(document).on('click', '#dj', function() {
           socket.emit('dj', {
+            socket_id: socket.id,
             access_token: access_token,
             refresh_token: refresh_token
           });
