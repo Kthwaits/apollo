@@ -1,0 +1,92 @@
+body,
+html {
+    height: 100%;
+    background: #7474BF;
+    /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #348AC7, #7474BF);
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #348AC7, #7474BF);
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+body {
+    margin-top: 30px;
+}
+
+.pill-btn {
+    border-radius: 499rem !important;
+    background-color:
+}
+
+.title {
+    font-family: proxima-nova, sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    color: #FFF;
+}
+
+.vertical-align {
+    display: flex;
+    align-items: center;
+}
+
+.container {
+    height: 100%;
+}
+
+button {
+    width: 60%;
+    margin: 5px;
+}
+
+#login,
+#loggedin {
+    display: none;
+}
+
+#loggedin {
+    margin:0 auto;
+}
+
+.text-overflow {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 300px;
+}
+
+p {
+    color: #348AC7;
+    font-family: proxima-nova, sans-serif;
+    font-style: normal;
+    font-weight: 400;
+}
+
+.profile-content {
+
+}
+
+.card {
+background: #ECE9E6;  /* fallback for old browsers */
+background: -webkit-linear-gradient(to right, #FFFFFF, #ECE9E6);  /* Chrome 10-25, Safari 5.1-6 */
+background: linear-gradient(to right, #FFFFFF, #ECE9E6); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+padding: 10px;
+margin:10px;
+}
+
+header {
+    /* ... */
+
+    /* Status bar height on iOS 10 */
+    padding-top: 20px;
+
+    /* Status bar height on iOS 11.0 */
+    padding-top: constant(safe-area-inset-top);
+
+    /* Status bar height on iOS 11+ */
+    padding-top: env(safe-area-inset-top);
+}
+
+.rounded-circle {
+    padding-top: 10px;
+}
