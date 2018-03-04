@@ -17,7 +17,7 @@ const exportedApi = (io) => {
       ProfileActions.getProfileInfo(user)
       .then((user) => {
         listeners.push(user);
-        socket.emit('updateListeners', listeners);
+        io.sockets.emit('updateListeners', listeners);
       });
 
     });
@@ -26,7 +26,7 @@ const exportedApi = (io) => {
       ProfileActions.getProfileInfo(user)
       .then((user) => {
         dj = user;
-        socket.emit('updateDj', dj);
+        io.sockets.emit('updateDj', dj);
       });
     });
 
