@@ -21,10 +21,8 @@ const exportedApi = (io) => {
     });
 
     socket.on('sync', () => {
-      var syncLoop = setInterval(() => {
-        console.log('sync');
-        PlaybackActions.sync(dj, listeners);
-      }, 5000);
+      console.log('sync');
+      PlaybackActions.sync(dj, listeners);
     });
   });
   return api;

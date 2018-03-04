@@ -38,6 +38,7 @@ const sync = (dj, listeners) => {
         track: [response.body.item.uri],
         position: response.body.progress_ms
       };
+      setPlaying(dj, currentlyPlayingInfo.track, currentlyPlayingInfo.position);
       listeners.forEach((user) => {
         setPlaying(user, currentlyPlayingInfo.track, currentlyPlayingInfo.position);
       });
