@@ -4,6 +4,7 @@ const request = require('requestretry');
 const AuthConfig = require('../config/auth');
 const PlaybackActions = require('../actions/playbackActions');
 const ProfileActions = require('../actions/profileActions');
+const Functions = require('../functions/functions');
 const Router = express.Router;
 
 var listeners = [];
@@ -16,8 +17,10 @@ const exportedApi = (io) => {
     socket.on('listener', (user) => {
       ProfileActions.getProfileInfo(user)
       .then((user) => {
+        if (Functions.isInArray(user, listeners) === false) {
         listeners.push(user);
-        io.sockets.emit('updateListeners', listeners);
+        io.sockets.emit('updateParty', dj, listeners);
+      }
       });
 
     });
@@ -26,7 +29,7 @@ const exportedApi = (io) => {
       ProfileActions.getProfileInfo(user)
       .then((user) => {
         dj = user;
-        io.sockets.emit('updateDj', dj);
+        io.sockets.emit('updateParty', dj, listeners);
       });
     });
 

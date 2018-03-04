@@ -74,17 +74,12 @@
       </div>
       <div class="row">
         <div class="col-sm-12">
-          <p class="text-overflow"><strong>DJ: </strong>{{id}}</p>
+          <p class="text-overflow"><strong>DJ: </strong>{{dj.id}}</p>
         </div>
       </div>
       <div class="row">
         <div class="col-sm-12">
-          <p class="text-overflow"><strong>Listeners: </strong></p>
-          {{#each listeners}}
-        </div class="row">
-        <p>{{this.id}}</p>
-      </div>
-      {{/each}}
+          <p class="text-overflow"><strong>Listeners:</strong>{{#each listeners}} {{this.id}} {{/each}}</p>
     </div>
     </div>
     </div>
@@ -157,12 +152,11 @@
           $('#loggedin').hide();
         }
 
-        socket.on('updateDj', function(dj) {
-          partyPlaceholder.innerHTML = partyTemplate(dj);
-        });
-
-        socket.on('updateListeners', function(listeners) {
-          partyPlaceholder.innerHTML = partyTemplate(listeners);
+        socket.on('updateParty', function(dj, listeners) {
+          partyPlaceholder.innerHTML = partyTemplate({
+            dj: dj,
+            listeners: listeners
+          });
         });
 
         $(document).on('click', '#listener', function() {

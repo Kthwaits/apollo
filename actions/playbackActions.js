@@ -23,8 +23,8 @@ const setPlaying = (user, track, position) => {
   .then((response) => {
     options = seekOptions.set(user.access_token, position);
     request.put(options)
-    .then((response) => {
-      console.log(response);
+    .catch((error) => {
+      console.log(error);
     })
   })
 };
@@ -42,7 +42,11 @@ const sync = (dj, listeners) => {
       listeners.forEach((user) => {
         setPlaying(user, currentlyPlayingInfo.track, currentlyPlayingInfo.position);
       });
-    });
+    })
+    .catch((error) => {
+      console.log(error);
+    })
+    ;
 };
 
 module.exports = {
