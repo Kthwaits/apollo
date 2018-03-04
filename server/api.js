@@ -3,6 +3,7 @@ const request = require('requestretry');
 
 const AuthConfig = require('../config/auth');
 const PlaybackActions = require('../actions/playbackActions');
+const ProfileActions = require('../actions/profileActions');
 const Router = express.Router;
 
 var listeners = [];
@@ -13,11 +14,20 @@ const exportedApi = (io) => {
 
   io.on('connection', (socket) => {
     socket.on('listener', (user) => {
-      listeners.push(user);
+      ProfileActions.getProfileInfo(user)
+      .then((user) => {
+        listeners.push(user);
+        socket.emit('updateListeners', listeners);
+      });
+
     });
 
     socket.on('dj', (user) => {
-      dj = user;
+      ProfileActions.getProfileInfo(user)
+      .then((user) => {
+        dj = user;
+        socket.emit('updateDj', dj);
+      });
     });
 
     socket.on('sync', () => {

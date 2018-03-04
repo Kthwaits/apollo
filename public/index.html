@@ -46,7 +46,8 @@
             </div>
           </div>
         </div>
-        <div id="party"></div>
+        <div id="party">
+        </div>
       </div>
     </div>
   </div>
@@ -64,9 +65,35 @@
     </div>
   </script>
 
+  <script id="party-template" type="text/x-handlebars-template">
+    <div class="card mx-auto">
+      <div class="row">
+        <div class="col-sm-12">
+          <h2>In This Party</h2>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <p class="text-overflow"><strong>DJ: </strong>{{id}}</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <p class="text-overflow"><strong>Listeners: </strong></p>
+          {{#each listeners}}
+        </div class="row">
+        <p>{{this.id}}</p>
+      </div>
+      {{/each}}
+    </div>
+    </div>
+    </div>
+  </script>
+
   <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0-alpha.1/handlebars.min.js"></script>
   <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
   <script>
+    var socket = io();
     (function() {
 
       /**
@@ -87,6 +114,10 @@
         userProfileTemplate = Handlebars.compile(userProfileSource),
         userProfilePlaceholder = document.getElementById('user-profile');
 
+      var partySource = document.getElementById('party-template').innerHTML,
+        partyTemplate = Handlebars.compile(partySource),
+        partyPlaceholder = document.getElementById('party');
+
       var params = getHashParams();
 
       var access_token = params.access_token,
@@ -98,7 +129,11 @@
         alert('There was an error during the authentication');
       } else {
         if (access_token) {
-          // render oauth info
+
+          partyPlaceholder.innerHTML = partyTemplate({
+            listeners: null,
+            dj: null
+          });
 
           $.ajax({
             url: 'https://api.spotify.com/v1/me',
@@ -122,7 +157,13 @@
           $('#loggedin').hide();
         }
 
+        socket.on('updateDj', function(dj) {
+          partyPlaceholder.innerHTML = partyTemplate(dj);
+        });
 
+        socket.on('updateListeners', function(listeners) {
+          partyPlaceholder.innerHTML = partyTemplate(listeners);
+        });
 
         $(document).on('click', '#listener', function() {
           socket.emit('listener', {
