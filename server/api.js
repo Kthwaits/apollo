@@ -28,6 +28,9 @@ const exportedApi = (io) => {
     socket.on('dj', (user) => {
       ProfileActions.getProfileInfo(user)
       .then((user) => {
+        if (Functions.isInArray(user, listeners) === true) {
+          listeners = Functions.removeFromArray(user, listeners);
+        }
         dj = user;
         io.sockets.emit('updateParty', dj, listeners);
       });

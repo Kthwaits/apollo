@@ -7,6 +7,19 @@ listeners.forEach((listener) => {
 })
   return found;
 });
+
+const removeFromArray = ((user, listeners) => {
+var i = 0;
+  listeners.forEach((listener) => {
+    if (listener.id === user.id){
+      listeners.splice(i,1);
+    }
+    i++
+  });
+return listeners;
+})
+
 module.exports = {
-  isInArray
+  isInArray,
+  removeFromArray
 };
