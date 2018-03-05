@@ -18,6 +18,10 @@ body {
     background-color:
 }
 
+.yellow-button {
+  background-color: #FFD358;
+}
+
 .title {
     font-family: proxima-nova, sans-serif;
     font-style: normal;
