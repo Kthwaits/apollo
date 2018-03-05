@@ -16,6 +16,9 @@ const getProfileInfo = (user) => {
           user.refresh_token = refresh_token;
           user.socket_id = socket_id;
           resolve(user);
+        })
+        .catch((err) => {
+          reject(error);
         });
     }
   )

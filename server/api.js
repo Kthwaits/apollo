@@ -17,10 +17,16 @@ const exportedApi = (io) => {
     socket.on('listener', (user) => {
       ProfileActions.getProfileInfo(user)
       .then((user) => {
+        if (dj.id === user.id) {
+          dj = {};
+        }
         if (Functions.isInArray(user, listeners) === false) {
         listeners.push(user);
         io.sockets.emit('updateParty', dj, listeners);
       }
+      })
+      .catch((err) => {
+        console.log(err)
       });
 
     });
@@ -33,13 +39,34 @@ const exportedApi = (io) => {
         }
         dj = user;
         io.sockets.emit('updateParty', dj, listeners);
+      })
+      .catch((err) => {
+        console.log(err)
       });
     });
 
     socket.on('sync', () => {
       console.log('sync');
+      if (typeof(dj.id) !== 'undefined') {
       PlaybackActions.sync(dj, listeners);
+    }
     });
+
+    socket.on('leave', (user) => {
+      ProfileActions.getProfileInfo(user)
+      .then((user) => {
+        if (Functions.isInArray(user, listeners) === true) {
+          listeners = Functions.removeFromArray(user, listeners);
+        } else if (dj.id === user.id) {
+          dj = null;
+        }
+        io.sockets.emit('updateParty', dj, listeners);
+      })
+      .catch((err) => {
+        console.log(err)
+      });
+    });
+
   });
   return api;
 };

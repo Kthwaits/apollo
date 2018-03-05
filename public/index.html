@@ -46,7 +46,11 @@
             </div>
           </div>
         </div>
-        <div id="party">
+        <div id="party"></div>
+        <div class="row">
+          <div class="col-sm-12 text-center">
+            <button class="btn btn-danger pill-btn" id="leave">Leave Party</button>
+          </div>
         </div>
       </div>
     </div>
@@ -182,6 +186,13 @@
           socket.emit('sync');
         });
 
+        $(document).on('click', '#leave', function() {
+          socket.emit('leave', {
+            socket_id: socket.id,
+            access_token: access_token,
+            refresh_token: refresh_token
+          });
+        });
 
       }
 
