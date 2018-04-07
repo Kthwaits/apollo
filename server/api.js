@@ -14,62 +14,62 @@ const exportedApi = (io) => {
   let api = Router();
 
   io.on('connection', (socket) => {
-console.log('connection')
+    console.log('connection')
     socket.on('room', (room) => {
-      console.log(room);
+      socket.join(room);
     });
 
     socket.on('listener', (user) => {
       ProfileActions.getProfileInfo(user)
-      .then((user) => {
-        if (dj.id === user.id) {
-          dj = {};
-        }
-        if (Functions.isInArray(user, listeners) === false) {
-        listeners.push(user);
-        io.sockets.emit('updateParty', dj, listeners);
-      }
-      })
-      .catch((err) => {
-        console.log(err)
-      });
+        .then((user) => {
+          if (dj.id === user.id) {
+            dj = {};
+          }
+          if (Functions.isInArray(user, listeners) === false) {
+            listeners.push(user);
+            io.sockets.emit('updateParty', dj, listeners);
+          }
+        })
+        .catch((err) => {
+          console.log(err)
+        });
 
     });
 
     socket.on('dj', (user) => {
       ProfileActions.getProfileInfo(user)
-      .then((user) => {
-        if (Functions.isInArray(user, listeners) === true) {
-          listeners = Functions.removeFromArray(user, listeners);
-        }
-        dj = user;
-        io.sockets.emit('updateParty', dj, listeners);
-      })
-      .catch((err) => {
-        console.log(err)
-      });
+        .then((user) => {
+          if (Functions.isInArray(user, listeners) === true) {
+            listeners = Functions.removeFromArray(user, listeners);
+          }
+          dj = user;
+          io.sockets.emit('updateParty', dj, listeners);
+        })
+        .catch((err) => {
+          console.log(err)
+        });
     });
 
     socket.on('sync', () => {
       console.log('sync');
       if (typeof(dj.id) !== 'undefined') {
-      PlaybackActions.sync(dj, listeners);
-    }
+        PlaybackActions.sync(dj, listeners);
+      }
     });
 
     socket.on('leave', (user) => {
       ProfileActions.getProfileInfo(user)
-      .then((user) => {
-        if (Functions.isInArray(user, listeners) === true) {
-          listeners = Functions.removeFromArray(user, listeners);
-        } else if (dj.id === user.id) {
-          dj = null;
-        }
-        io.sockets.emit('updateParty', dj, listeners);
-      })
-      .catch((err) => {
-        console.log(err)
-      });
+        .then((user) => {
+          if (Functions.isInArray(user, listeners) === true) {
+            listeners = Functions.removeFromArray(user, listeners);
+          } else if (dj.id === user.id) {
+            dj = null;
+          }
+          io.sockets.emit('updateParty', dj, listeners);
+        })
+        .catch((err) => {
+          console.log(err)
+        });
     });
 
   });
