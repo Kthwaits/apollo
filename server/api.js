@@ -16,7 +16,7 @@ const exportedApi = (io) => {
   io.on('connection', (socket) => {
 console.log('connection')
     socket.on('room', (room) => {
-      socket.join(room);
+      console.log(room);
     });
 
     socket.on('listener', (user) => {
