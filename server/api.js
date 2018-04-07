@@ -14,6 +14,11 @@ const exportedApi = (io) => {
   let api = Router();
 
   io.on('connection', (socket) => {
+console.log('connection')
+    socket.on('room', (room) => {
+      socket.join(room);
+    });
+
     socket.on('listener', (user) => {
       ProfileActions.getProfileInfo(user)
       .then((user) => {

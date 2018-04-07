@@ -34,6 +34,13 @@ const sync = (dj, listeners) => {
   options = currentlyPlayingOptions.set(dj.access_token);
   request.get(options)
     .then((response) => {
+
+
+
+
+
+
+
       currentlyPlayingInfo = {
         track: [response.body.item.uri],
         position: response.body.progress_ms

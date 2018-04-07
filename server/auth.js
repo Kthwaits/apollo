@@ -5,6 +5,7 @@ const request = require('requestretry');
 const Router = express.Router;
 const AppConfig = require('../config/app');
 const AuthConfig = require('../config/auth');
+const Functions = require('../functions/functions')
 
 const redirect_uri = `${AppConfig.HOST}/auth/callback`;
 const client_id = AuthConfig.CLIENT_ID;
@@ -12,20 +13,10 @@ const client_secret = AuthConfig.CLIENT_SECRET;
 
 let auth = Router();
 
-var generateRandomString = function(length) {
-  var text = '';
-  var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-
-  for (var i = 0; i < length; i++) {
-    text += possible.charAt(Math.floor(Math.random() * possible.length));
-  }
-  return text;
-};
-
 var stateKey = 'spotify_auth_state';
 
 auth.get('/login', function(req, res) {
-  var state = generateRandomString(16);
+  var state = Functions.generateRandomString(16);
   res.cookie(stateKey, state);
 
   var scope = 'user-read-private user-read-email user-read-playback-state user-modify-playback-state';

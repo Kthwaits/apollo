@@ -19,7 +19,18 @@ var i = 0;
 return listeners;
 })
 
+const  generateRandomString = function(length) {
+  var text = '';
+  var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+
+  for (var i = 0; i < length; i++) {
+    text += possible.charAt(Math.floor(Math.random() * possible.length));
+  }
+  return text;
+};
+
 module.exports = {
   isInArray,
-  removeFromArray
+  removeFromArray,
+  generateRandomString
 };
