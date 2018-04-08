@@ -31,7 +31,7 @@ const exportedApi = (io) => {
             if (dj.uri) {
             PlaybackActions.getCurrentlyPlaying(dj)
             .then((currentlyPlaying) => {
-              io.sockets.to(user.socket_id).emit('currentlyPlaying', JSON.stringify(currentlyPlaying));
+              io.sockets.to(user.room).emit('currentlyPlaying', JSON.stringify(currentlyPlaying));
             })
             .catch((err) => {
               console.log(err)
