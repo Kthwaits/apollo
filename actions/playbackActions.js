@@ -11,6 +11,7 @@ const getCurrentlyPlaying = (user) => {
   options = currentlyPlayingOptions.set(user.access_token);
   request.get(options)
     .then((response) => {
+      if(response.body.item.uri !== null) {
       currentlyPlayingInfo = {
         track: [response.body.item.uri],
         position: response.body.progress_ms,
@@ -18,7 +19,17 @@ const getCurrentlyPlaying = (user) => {
         artist: response.body.item.artists[0].name,
         song: response.body.item.name,
         duration: response.body.item.duration_ms
-      };
+      };}
+      else {
+        currentlyPlayingInfo = {
+          track: null,
+          position: null,
+          albumArt: null,
+          artist: null,
+          song: null,
+          duration: null
+        };
+      }
       resolve(currentlyPlayingInfo);
     })
     .catch((error) => {
