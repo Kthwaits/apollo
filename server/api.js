@@ -28,6 +28,7 @@ const exportedApi = (io) => {
           if (Functions.isInArray(user, listeners) === false) {
             listeners.push(user);
             io.sockets.emit('updateParty', dj, listeners);
+            if (dj) {
             PlaybackActions.getCurrentlyPlaying(dj)
             .then((currentlyPlaying) => {
               io.sockets.to(user.socket_id).emit('currentlyPlaying', JSON.stringify(currentlyPlaying));
@@ -35,7 +36,7 @@ const exportedApi = (io) => {
             .catch((err) => {
               console.log(err)
             });
-          }
+          }}
         })
         .catch((err) => {
           console.log(err)
