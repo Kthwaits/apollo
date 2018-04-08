@@ -43,6 +43,7 @@ const exportedApi = (io) => {
             listeners = Functions.removeFromArray(user, listeners);
           }
           dj = user;
+
           io.sockets.emit('updateParty', dj, listeners);
         })
         .catch((err) => {
@@ -56,7 +57,8 @@ const exportedApi = (io) => {
           var room = user.room;
           PlaybackActions.getCurrentlyPlaying(user)
             .then((currentlyPlaying) => {
-              io.sockets.emit('currentlyPlaying', currentlyPlaying);
+              socket.emit('currentlyPlaying', currentlyPlaying);
+              console.log(currentlyPlaying);
             })
         }).catch((err) => {
           console.log(err)
