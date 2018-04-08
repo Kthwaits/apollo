@@ -30,6 +30,7 @@ const setPlaying = (user, track, position) => {
   options = playOptions.set(user.access_token, track);
   request.put(options)
   .then((response) => {
+    console.log(response);
     options = seekOptions.set(user.access_token, position);
     request.put(options)
     .catch((error) => {
