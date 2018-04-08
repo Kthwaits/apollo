@@ -6,6 +6,8 @@ const seekOptions = require('../apiOptions/seek');
 var currentlyPlayingInfo = {};
 
 const getCurrentlyPlaying = (user) => {
+  return new Promise(
+    function (resolve, reject) {
   options = currentlyPlayingOptions.set(user.access_token);
   request.get(options)
     .then((response) => {
@@ -13,8 +15,12 @@ const getCurrentlyPlaying = (user) => {
         track: [response.body.item.uri],
         position: response.body.progress_ms
       };
-      return currentlyPlayingInfo;
+      resolve(currentlyPlayingInfo);
+    })
+    .catch((error) => {
+      reject(error);
     });
+  });
 };
 
 const setPlaying = (user, track, position) => {

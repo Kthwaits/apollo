@@ -43,10 +43,22 @@ const exportedApi = (io) => {
             listeners = Functions.removeFromArray(user, listeners);
           }
           dj = user;
-          console.log(dj);
           io.sockets.emit('updateParty', dj, listeners);
         })
         .catch((err) => {
+          console.log(err)
+        });
+    });
+
+    socket.on('getCurrentlyPlaying', (user) => {
+      ProfileActions.getProfileInfo(user)
+        .then((user) => {
+          var room = user.room;
+          PlaybackActions.getCurrentlyPlaying(user)
+            .then((currentlyPlaying) => {
+              socket.to(room).emit('currentlyPlaying', currentlyPlaying);
+            })
+        }).catch((err) => {
           console.log(err)
         });
     });

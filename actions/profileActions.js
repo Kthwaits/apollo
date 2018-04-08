@@ -7,6 +7,7 @@ const getProfileInfo = (user) => {
       var access_token = user.access_token;
       //var refresh_token = user.refresh_token;
       var socket_id = user.socket_id;
+      var room = user.room;
       options = profileOptions.set(access_token);
       request.get(options)
         .then((response) => {
