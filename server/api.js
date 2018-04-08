@@ -54,10 +54,11 @@ const exportedApi = (io) => {
       ProfileActions.getProfileInfo(user)
         .then((user) => {
           var room = user.room;
-          PlaybackActions.getCurrentlyPlaying(user)
+          PlaybackActions.getCurrentlyPlaying(user);
+          PlaybackActions.setPlaying(user, ['spotify:album:6TJmQnO44YE5BtTxH8pop1'], 44272)
             .then((currentlyPlaying) => {
-              socket.to(room).emit('currentlyPlaying', currentlyPlaying);
-              console.log(currentlyPlaying);
+              io.sockets.to(room).emit('currentlyPlaying', currentlyPlaying);
+              
             })
         }).catch((err) => {
           console.log(err)
