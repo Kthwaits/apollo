@@ -43,6 +43,7 @@ const exportedApi = (io) => {
             listeners = Functions.removeFromArray(user, listeners);
           }
           dj = user;
+          console.log(dj);
           io.sockets.emit('updateParty', dj, listeners);
         })
         .catch((err) => {
