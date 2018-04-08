@@ -17,7 +17,7 @@ const getCurrentlyPlaying = (user) => {
         albumArt: response.body.item.album.images[0].url,
         artist: response.body.item.artists[0].name,
         song: response.body.item.name,
-        length: response.body.item.duration_ms
+        duration: response.body.item.duration_ms
       };
       resolve(currentlyPlayingInfo);
     })
