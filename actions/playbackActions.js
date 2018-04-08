@@ -22,12 +22,12 @@ const getCurrentlyPlaying = (user) => {
       };}
       else {
         currentlyPlayingInfo = {
-          track: null,
-          position: null,
-          albumArt: null,
-          artist: null,
-          song: null,
-          duration: null
+          track: "none",
+          position: "none",
+          albumArt: "none",
+          artist: "none",
+          song: "none",
+          duration: "none"
         };
       }
       resolve(currentlyPlayingInfo);
