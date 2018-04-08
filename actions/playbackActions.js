@@ -11,8 +11,7 @@ const getCurrentlyPlaying = (user) => {
   options = currentlyPlayingOptions.set(user.access_token);
   request.get(options)
     .then((response) => {
-      console.log(response);
-      if(response.body.item.uri !== null) {
+      if(response.body.item !== null) {
       currentlyPlayingInfo = {
         track: [response.body.item.uri],
         position: response.body.progress_ms,
