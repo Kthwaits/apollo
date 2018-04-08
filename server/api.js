@@ -56,9 +56,6 @@ const exportedApi = (io) => {
           var room = user.room;
           PlaybackActions.getCurrentlyPlaying(user)
             .then((currentlyPlaying) => {
-              console.log(currentlyPlaying)
-              //awful hack to stop sending object as the root of an array
-              console.log(JSON.stringify(currentlyPlaying));
               io.sockets.to(room).emit('currentlyPlaying', JSON.stringify(currentlyPlaying));
             })
         }).catch((err) => {
