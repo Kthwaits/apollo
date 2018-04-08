@@ -14,8 +14,8 @@ const getCurrentlyPlaying = (user) => {
       currentlyPlayingInfo = {
         track: [response.body.item.uri],
         position: response.body.progress_ms,
-        albumArt: response.body.item.album.images.[0].url,
-        artist: response.body.item.artists.[0].name,
+        albumArt: response.body.item.album.images[0].url,
+        artist: response.body.item.artists[0].name,
         song: response.body.item.name
       };
       resolve(currentlyPlayingInfo);
