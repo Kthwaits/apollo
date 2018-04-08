@@ -29,15 +29,14 @@ const exportedApi = (io) => {
             listeners.push(user);
             io.sockets.emit('updateParty', dj, listeners);
             if (dj.uri) {
-              PlaybackActions.getCurrentlyPlaying(dj)
-                .then((currentlyPlaying) => {
-                  io.sockets.to(user.room).emit('currentlyPlaying', JSON.stringify(currentlyPlaying));
-                })
-                .catch((err) => {
-                  console.log(err)
-                });
-            }
-          }
+            PlaybackActions.getCurrentlyPlaying(dj)
+            .then((currentlyPlaying) => {
+              io.sockets.to(user.room).emit('currentlyPlaying', JSON.stringify(currentlyPlaying));
+            })
+            .catch((err) => {
+              console.log(err)
+            });
+          }}
         })
         .catch((err) => {
           console.log(err)
@@ -62,15 +61,14 @@ const exportedApi = (io) => {
     socket.on('getCurrentlyPlaying', (user) => {
       ProfileActions.getProfileInfo(user)
         .then((user) => {
-            var room = user.room;
-            if (dj.room === room) {
-              PlaybackActions.getCurrentlyPlaying(dj)
-                .then((currentlyPlaying) => {
-                  io.sockets.to(room).emit('currentlyPlaying', JSON.stringify(currentlyPlaying));
-            }).catch((err) => {
-            console.log(err)
-          });
-        }
+          var room = user.room;
+          PlaybackActions.getCurrentlyPlaying(user)
+            .then((currentlyPlaying) => {
+              io.sockets.to(room).emit('currentlyPlaying', JSON.stringify(currentlyPlaying));
+            })
+        }).catch((err) => {
+          console.log(err)
+        });
     });
 
     socket.on('sync', () => {
