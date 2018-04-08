@@ -22,7 +22,7 @@ const getCurrentlyPlaying = (user) => {
       };}
       else {
         currentlyPlayingInfo = {
-          track: "none",
+          track: ["none"],
           position: 0,
           albumArt: "none",
           artist: "none",
