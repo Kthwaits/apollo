@@ -28,7 +28,7 @@ const exportedApi = (io) => {
           if (Functions.isInArray(user, listeners) === false) {
             listeners.push(user);
             io.sockets.emit('updateParty', dj, listeners);
-            if (dj) {
+            if (dj.uri) {
             PlaybackActions.getCurrentlyPlaying(dj)
             .then((currentlyPlaying) => {
               io.sockets.to(user.socket_id).emit('currentlyPlaying', JSON.stringify(currentlyPlaying));
