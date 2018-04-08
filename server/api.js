@@ -67,7 +67,6 @@ const exportedApi = (io) => {
               PlaybackActions.getCurrentlyPlaying(dj)
                 .then((currentlyPlaying) => {
                   io.sockets.to(room).emit('currentlyPlaying', JSON.stringify(currentlyPlaying));
-                })
             }).catch((err) => {
             console.log(err)
           });
