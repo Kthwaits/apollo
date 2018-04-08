@@ -7,10 +7,11 @@ var currentlyPlayingInfo = {};
 
 const getCurrentlyPlaying = (user) => {
   return new Promise(
-    function (resolve, reject) {
+  function (resolve, reject) {
   options = currentlyPlayingOptions.set(user.access_token);
   request.get(options)
     .then((response) => {
+      console.log(response);
       if(response.body.item.uri !== null) {
       currentlyPlayingInfo = {
         track: [response.body.item.uri],
