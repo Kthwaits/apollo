@@ -13,6 +13,7 @@ const getProfileInfo = (user) => {
         .then((response) => {
           response = response.toJSON();
           user = response.body;
+          user.room = room;
           user.access_token = access_token;
           //user.refresh_token = refresh_token;
           user.socket_id = socket_id;
