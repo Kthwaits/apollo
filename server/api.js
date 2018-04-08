@@ -28,6 +28,13 @@ const exportedApi = (io) => {
           if (Functions.isInArray(user, listeners) === false) {
             listeners.push(user);
             io.sockets.emit('updateParty', dj, listeners);
+            PlaybackActions.getCurrentlyPlaying(dj)
+            .then((currentlyPlaying) => {
+              io.sockets.to(user.socket_id).emit('currentlyPlaying', JSON.stringify(currentlyPlaying));
+            })
+            .catch((err) => {
+              console.log(err)
+            });
           }
         })
         .catch((err) => {
