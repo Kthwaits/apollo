@@ -64,7 +64,7 @@ const exportedApi = (io) => {
               .then((user) => {
                 io.sockets.to(room).emit('DJInfo', JSON.stringify(user));
               }).catch((err) => {
-                console.log(err;)
+                console.log(err);
               });
           });
 
