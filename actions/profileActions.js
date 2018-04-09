@@ -21,7 +21,7 @@ const getProfileInfo = (user) => {
           resolve(user);
         })
         .catch((err) => {
-          reject(error);
+          reject(err);
         });
     }
   )
