@@ -14,7 +14,6 @@ const getProfileInfo = (user) => {
           response = response.toJSON();
           user = response.body;
           user.images = response.body.images[0].url;
-          console.log(user);
           user.room = room;
           user.access_token = access_token;
           //user.refresh_token = refresh_token;
