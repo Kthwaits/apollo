@@ -13,9 +13,7 @@ const getProfileInfo = (user) => {
         .then((response) => {
           response = response.toJSON();
           user = response.body;
-          if(!user.images[0]){
-          user.images = response.body.images[0].url;
-        }
+          user.images = response.body.images[0].url || user.images;
           user.room = room;
           user.access_token = access_token;
           //user.refresh_token = refresh_token;
