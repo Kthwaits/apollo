@@ -62,6 +62,7 @@ const exportedApi = (io) => {
         socket.on('getDJProfile', (room) => {
             ProfileActions.getProfileInfo(dj)
               .then((user) => {
+                console.log(user);
                 io.sockets.to(room).emit('DJInfo', JSON.stringify(user));
               }).catch((err) => {
                 console.log(err);
