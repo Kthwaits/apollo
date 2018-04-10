@@ -52,7 +52,7 @@ const exportedApi = (io) => {
                 listeners = Functions.removeFromArray(user, listeners);
               }
               dj = user;
-              io.sockets.to(user.room).emit('updateParty', JSON.stringify(dj), JSON.stringify(listeners));
+              io.sockets.to(user.room).emit('DJInfo', JSON.stringify(dj));
             })
             .catch((err) => {
               console.log(err)
