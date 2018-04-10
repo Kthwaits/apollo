@@ -72,10 +72,12 @@ const exportedApi = (io) => {
             ProfileActions.getProfileInfo(user)
               .then((user) => {
                 var room = user.room;
+                if(room = dj.room) {
                 PlaybackActions.getCurrentlyPlaying(user)
                   .then((currentlyPlaying) => {
                     io.sockets.to(room).emit('currentlyPlaying', JSON.stringify(currentlyPlaying));
                   })
+                }
               }).catch((err) => {
                 console.log(err)
               });
