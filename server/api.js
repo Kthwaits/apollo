@@ -73,7 +73,7 @@ const exportedApi = (io) => {
               .then((user) => {
                 var room = user.room;
                 if(room = dj.room) {
-                PlaybackActions.getCurrentlyPlaying(user)
+                PlaybackActions.getCurrentlyPlaying(dj)
                   .then((currentlyPlaying) => {
                     io.sockets.to(room).emit('currentlyPlaying', JSON.stringify(currentlyPlaying));
                   })
