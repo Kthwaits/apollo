@@ -3,7 +3,7 @@ const profileOptions = require('../apiOptions/profileOptions');
 
 const getProfileInfo = (user) => {
   return new Promise(
-    function (resolve, reject) {
+    function(resolve, reject) {
       var access_token = user.access_token;
       //var refresh_token = user.refresh_token;
       var socket_id = user.socket_id;
@@ -13,7 +13,9 @@ const getProfileInfo = (user) => {
         .then((response) => {
           response = response.toJSON();
           user = response.body;
-          user.images = response.body.images[0].url || user.images;
+          if (user.images) {
+            user.images = response.body.images[0].url || user.images;
+          }
           user.room = room;
           user.access_token = access_token;
           //user.refresh_token = refresh_token;
