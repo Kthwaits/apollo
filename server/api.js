@@ -90,6 +90,10 @@ const exportedApi = (io) => {
             }
           });
 
+          socket.on('getListeners', (room) => {
+            io.sockets.to(user.room).emit('updateListeners', JSON.stringify(listeners));
+          });
+
           socket.on('leave', (user) => {
             ProfileActions.getProfileInfo(user)
               .then((user) => {
