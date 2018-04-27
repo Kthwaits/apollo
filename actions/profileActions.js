@@ -15,6 +15,8 @@ const getProfileInfo = (user) => {
           user = response.body;
           if (typeof user.images[0] !== 'undefined') {
             user.images = response.body.images[0].url || user.images;
+          } else {
+            user.images = "none";
           }
           user.room = room;
           user.access_token = access_token;
