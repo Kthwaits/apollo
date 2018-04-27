@@ -13,7 +13,7 @@ const getProfileInfo = (user) => {
         .then((response) => {
           response = response.toJSON();
           user = response.body;
-          if (user.images[0]) {
+          if (typeof user.images[0] !== 'undefined') {
             user.images = response.body.images[0].url || user.images;
           }
           user.room = room;
